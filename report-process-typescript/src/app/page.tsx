@@ -1,9 +1,8 @@
-import React, { useState } from "react"
+import React from "react"
 
 type Props = {}
 
 export default function Index({ }: Props) {
-  const [file, setFile] = useState();
   return (
     <div className="md:container md:mx-auto">
       <h1 className="text-2xl font-bold text-black mb-7"> Files</h1>

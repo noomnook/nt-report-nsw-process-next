@@ -1,10 +1,9 @@
-const express = require('express')
-const multer  = require('multer')
-const upload = multer({ dest: 'uploads/' })
+import { multerUpload } from "../../../../services/upload";
 
-const app = express()
+const handler = async (req: { body: any; }, res: { json: (arg0: { valid: boolean; status: string; }) => any; }) => {
+  console.log("API Upload");
+  const result = await multerUpload(req.body);
+  return res.json(result)
+}
 
-app.post('/file', upload.single('report'), function (req: any, res: any, next: any) {
-    // req.file is the `avatar` file
-    // req.body will hold the text fields, if there were any
-  })
+export default handler;

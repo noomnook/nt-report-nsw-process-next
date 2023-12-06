@@ -1,17 +1,37 @@
-// import type { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest, NextResponse } from "next/server";
+import type { NextApiRequest, NextApiResponse } from "next";
+import formidable, { errors as FormidableError } from "formidable";
+// import express from "express";
+const fs = require('fs');
+const path = require('path')
+// import { parseForm, FormidableError } from "./../../../../lib/parse-form";
 
-// type Data = {
-//   name: string;
-// };
+// const app = express();
 
-// export default function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
-//   res.status(200).json({ name: "hello file uploader" });
-// }
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
 
-import { NextResponse } from "next/server";
+export async function POST(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method !== "POST") {
+    return;
+  }
 
-export async function GET(){
-  return NextResponse.json({
-    hello: "world",
-  });
-}
+  try {
+    const form = formidable({
+      uploadDir: './../../../../assits/uploads/',
+      keepExtensions: true,
+    });
+    form.parse(req, (err, fields, files) => {
+      console.log('fields:', fields);
+      console.log('files:', files);
+    });
+  } catch (err: any) {
+    if (err.code === FormidableError.maxFieldsExceeded) {
+      return NextResponse.json({ name: "Error" });
+    }
+    return;
+  }
+};

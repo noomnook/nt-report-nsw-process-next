@@ -1,12 +1,22 @@
-import React from "react"
+import React, { ChangeEvent } from "react"
 
 export default function Page() {
+
+  // const [file, setFile] = useState<File | null>(null);
+  // const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   async function create(formData: FormData) {
     'use server'
     const file = formData.get('file_input');
     console.log('file', file)
+    const res = await fetch("/api/formidable", {
+      method: "POST",
+      body: formData,
+    });
+    console.log(res);
+    
   }
+
 
   return (
     <div className="md:container md:mx-auto">

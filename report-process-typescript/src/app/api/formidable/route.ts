@@ -1,12 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import type { NextApiRequest, NextApiResponse } from "next";
 import formidable, { errors as FormidableError } from "formidable";
-// import express from "express";
 const fs = require('fs');
 const path = require('path')
-// import { parseForm, FormidableError } from "./../../../../lib/parse-form";
-
-// const app = express();
 
 export const config = {
   api: {
@@ -14,24 +9,31 @@ export const config = {
   },
 };
 
-export async function POST(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== "POST") {
+export async function POST(request: NextRequest) {
+  if (request.method !== "POST") {
+    console.log("NOT Method POST");
     return;
   }
 
+  console.log("Welcome API POST Method");
+  
   try {
     const form = formidable({
       uploadDir: './../../../../assits/uploads/',
       keepExtensions: true,
     });
-    form.parse(req, (err, fields, files) => {
+    form.parse(res, (err, fields, files) => {
       console.log('fields:', fields);
       console.log('files:', files);
     });
   } catch (err: any) {
     if (err.code === FormidableError.maxFieldsExceeded) {
-      return NextResponse.json({ name: "Error" });
+      return Response.json({ name: "Error" });
     }
     return;
   }
 };
+
+export async function GET() {
+  return Response.json({ name: "GET Method" });
+}

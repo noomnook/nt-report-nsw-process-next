@@ -1,9 +1,8 @@
-import React, { ChangeEvent } from "react"
+import formidable from "formidable";
+import { NextRequest } from "next/server";
+import React from "react"
 
 export default function Page() {
-
-  // const [file, setFile] = useState<File | null>(null);
-  // const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   async function create(formData: FormData) {
     'use server'
@@ -14,9 +13,7 @@ export default function Page() {
       body: formData,
     });
     console.log(res);
-    
   }
-
 
   return (
     <div className="md:container md:mx-auto">

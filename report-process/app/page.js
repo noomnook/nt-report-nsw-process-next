@@ -4,25 +4,28 @@ export default function Home() {
 
   async function create(formData) {
     'use server'
-    const file = formData.get('myfile');
-    console.log('file>> ', file)
+    // const file = formData.get('myfile');
+    console.log('file>> ', formData)
     const res = await fetch("http://localhost:3000/api/uploads", {
       method: "POST",
-      body: formData,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
     });
-    console.log(res);
+    // console.log('app route:>>> \n', res, '<<<<<<<<<<<<<<<<');
   }
-  
+
   return (
     <div>
       <form action={create}>
-            <div>
-                <input type="file" name="myfile" required />
-            </div>
-            <div>
-                <input type="submit" value="Upload" />
-            </div>
-        </form>
+        <div>
+          <input type="file" name="myfile" required />
+        </div>
+        <div>
+          <input type="submit" value="Upload" />
+        </div>
+      </form>
     </div>
   )
 }

@@ -9,6 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/cache": "^11.11.0",
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.15.10",
+    "@mui/material-nextjs": "^5.15.9",
     "@types/formidable": "^3.4.5",
     "axios": "^1.6.2",
     "cors": "^2.8.5",

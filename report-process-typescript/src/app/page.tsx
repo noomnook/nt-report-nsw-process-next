@@ -70,7 +70,7 @@ export default function Home() {
           <ArrowForwardIosIcon fontSize="small"></ArrowForwardIosIcon>
         </div>
         <form onSubmit={onSubmit} className="flex justify-between items-center">
-          <input type="file" name="file" onChange={(e) => setFile(e.target.files?.[0])}  ref={fileInputRef}/>
+          <input type="file" name="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" onChange={(e) => setFile(e.target.files?.[0])}  ref={fileInputRef}/>
           <input className="ring-2 px-3 py-2 bg-blue-800 text-white rounded-md cursor-pointer text-end" type="submit" value="Upload" />
         </form>
       </div>

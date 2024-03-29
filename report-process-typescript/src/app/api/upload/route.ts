@@ -1,23 +1,40 @@
-import { writeFile } from 'fs/promises'
-import { NextRequest, NextResponse } from 'next/server'
-import { join } from 'path'
+import fs from "fs/promises";
+import { NextRequest, NextResponse } from "next/server";
+import { join } from "path";
 
 export async function POST(request: NextRequest) {
-  const data = await request.formData() ///
-  const file: File | null = data.get('file') as unknown as File
-
+  const data = await request.formData(); ///
+  const folderName:string = data.get("folderName") as string;
+  const file: File | null = data.get("file") as unknown as File;
   if (!file) {
-    return NextResponse.json({ success: false })
+    return NextResponse.json({
+      status: 400,
+      message: "No File was provided",
+    });
   }
+  try {
+    await createDirectory(folderName);
+    const bytes = await file.arrayBuffer();
+    const buffer = Buffer.from(bytes);
+    const path = join("./assets/" + `${folderName}/`, "", file.name);
+    await fs.writeFile(path, buffer);
+    return NextResponse.json({ success: true });
+  } catch (err) {
+    return NextResponse.json({
+      status: 500,
+      message: "Internal Server Error",
+    });
+  }
+}
 
-  const bytes = await file.arrayBuffer()
-  const buffer = Buffer.from(bytes)
-
-  // With the file data in the buffer, you can do whatever you want with it.
-  // For this, we'll just write it to the filesystem in a new location
-  const path = join('./assits/uploads/', '', file.name)
-  await writeFile(path, buffer)
-  console.log(`open ${path} to see the uploaded file`)
-
-  return NextResponse.json({ success: true })
+const createDirectory = async(folderName:string) => {
+  try{
+    await fs.mkdir('./assets/' + folderName,{recursive: true});
+  } catch(err){
+    console.log('createDirectory',err);
+    return NextResponse.json({
+      status: 500,
+      message: "Internal Server Error",
+    });
+  }
 }

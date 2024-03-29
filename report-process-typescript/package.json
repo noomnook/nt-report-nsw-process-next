@@ -9,6 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/cache": "^11.11.0",
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
+    "@fontsource/kanit": "^5.0.19",
+    "@mui/icons-material": "^5.15.10",
+    "@mui/material-nextjs": "^5.15.9",
     "@types/formidable": "^3.4.5",
     "axios": "^1.6.2",
     "cors": "^2.8.5",
@@ -23,7 +29,9 @@
     "next": "14.0.3",
     "next-connect": "^1.0.0",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-hook-form": "^7.51.1",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",

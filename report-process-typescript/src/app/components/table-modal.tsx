@@ -13,6 +13,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import { Rowdies } from "next/font/google";
 
 const style = {
   position: "absolute" as "absolute",
@@ -23,19 +24,23 @@ const style = {
   p: 4,
 };
 
+// React.useEffect(() => {
+//   onSelectedFilename();
+// }, [])
+
 export default function TableModal({ path, fileName }: any) {
   const [open, setOpen] = React.useState(false);
-  const [fileExcelData,setFileExcelData] = React.useState();
-  
-  const handleOpen = async() => {
+  const [fileExcelData, setFileExcelData] = React.useState();
+
+  const handleOpen = async () => {
     setOpen(true);
     await onSelectedFilename(path);
   };
 
   const handleClose = () => setOpen(false);
 
-  const onSelectedFilename = async(filePath:any) => {
-    try{
+  const onSelectedFilename = async (filePath: any) => {
+    try {
       const body = {
         path: filePath
       };
@@ -46,12 +51,12 @@ export default function TableModal({ path, fileName }: any) {
         },
         body: JSON.stringify(body),
       });
-      const data:any = await res.json();
-      if(data){
+      const data: any = await res.json();
+      if (data) {
         setFileExcelData(data['data']);
         console.log(fileExcelData);
       }
-    }catch(e:any){
+    } catch (e: any) {
       console.error(e);
     }
   }
@@ -72,24 +77,30 @@ export default function TableModal({ path, fileName }: any) {
           </div>
           <div className="my-3"></div>
           <div className="mx-auto">
-          <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 200 }} aria-label="simple table">
-              <TableHead>
-                {/* {rowsHeader.map((rows:any) => {
+            <TableContainer component={Paper}>
+              <Table sx={{ minWidth: 200 }} aria-label="simple table">
+                <TableHead>
+                  {/* {rowsHeader.map((rows:any) => {
                     <TableRow className="bg-[#94a3b8]">
                         <TableCell align="center">{rows}</TableCell>
                     </TableRow>
                 })} */}
-              </TableHead>
-              <TableBody>
-                {/* {rows.map((row) => (
+                  <div>Title</div>
+                </TableHead>
+                <TableBody>
+                  {
+                    // fileExcelData.map((row) => {                      
+                    // })
+                  }
+
+                  {/* {rows.map((row) => (
                   <TableRow key={row.name} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
                     <TableCell align="center"></TableCell>
                   </TableRow>
                 ))} */}
-              </TableBody>
-            </Table>
-          </TableContainer>
+                </TableBody>
+              </Table>
+            </TableContainer>
           </div>
         </Box>
       </Modal>

@@ -14,28 +14,30 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Button from '@mui/material/Button';
 
+// Custom Components 
+// src/app/components
 import TableModal from "./components/table-modal";
 
 export default function Home() {
   const [file, setFile] = useState<File | null>();
-  const [fileExcelData,setFileExcelData] = useState<Array<any> | null>();
+  const [fileExcelData, setFileExcelData] = useState<Array<any> | null>();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const tableModalRef = useRef(null);
   const [rowss, setRows] = useState<any[]>([]);
 
   useEffect(() => {
     fetchingData();
-  },[])
+  }, [])
 
 
-  const fetchingData = async() => {
-    try{
-      const res = await fetch("/api/upload3",{
+  const fetchingData = async () => {
+    try {
+      const res = await fetch("/api/upload3", {
         method: "GET"
       });
       const data = await res.json();
       setRows(data['data']);
-    }catch(err){
+    } catch (err) {
       console.log(err);
     }
   };
@@ -50,7 +52,7 @@ export default function Home() {
         method: "POST",
         body: data,
       });
-      if(await res.json()){
+      if (await res.json()) {
         await fetchingData();
         setFile(null);
         if (fileInputRef.current) fileInputRef.current.value = '';
@@ -60,8 +62,8 @@ export default function Home() {
     }
   };
 
-  const onSelectedFilename = async(filePath:any) => {
-    try{
+  const onSelectedFilename = async (filePath: any) => {
+    try {
       const body = {
         path: filePath
       };
@@ -72,18 +74,18 @@ export default function Home() {
         },
         body: JSON.stringify(body),
       });
-      const data:any = await res.json();
-      if(data){
+      const data: any = await res.json();
+      if (data) {
         setFileExcelData(data['data']);
         console.log(fileExcelData);
       }
-    }catch(e:any){
+    } catch (e: any) {
       console.error(e);
     }
   }
 
-  const onSelectedDelete = async(filePath:any) => {
-    try{
+  const onSelectedDelete = async (filePath: any) => {
+    try {
       console.log(filePath);
       const body = {
         path: filePath
@@ -95,10 +97,10 @@ export default function Home() {
         },
         body: JSON.stringify(body),
       });
-      if(await res.json()){
+      if (await res.json()) {
         await fetchingData();
       }
-    }catch(e:any){
+    } catch (e: any) {
       console.error(e);
     }
   }
@@ -112,7 +114,7 @@ export default function Home() {
           <ArrowForwardIosIcon fontSize="small"></ArrowForwardIosIcon>
         </div>
         <form onSubmit={onSubmit} className="flex justify-between items-center">
-          <input type="file" name="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" onChange={(e) => setFile(e.target.files?.[0])}  ref={fileInputRef}/>
+          <input type="file" name="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" onChange={(e) => setFile(e.target.files?.[0])} ref={fileInputRef} />
           <input className="ring-2 px-3 py-2 bg-blue-800 text-white rounded-md cursor-pointer text-end" type="submit" value="Upload" />
         </form>
       </div>
@@ -132,13 +134,13 @@ export default function Home() {
                   <TableCell align="center" className="cursor-pointer" >{row.name}</TableCell>
                   <TableCell align="center">{row.size}</TableCell>
                   <TableCell align="center">
-                  <div className="flex justify-center">
-                    <div>
-                      <Button className="px-0" onClick={() => onSelectedDelete(row.path)}>
-                        <ClearIcon fontSize="small" className="text-red-500 cursor-pointer"></ClearIcon>
-                      </Button>
-                    </div>
-{/*                     <div>
+                    <div className="flex justify-center">
+                      <div>
+                        <Button className="px-0" onClick={() => onSelectedDelete(row.path)}>
+                          <ClearIcon fontSize="small" className="text-red-500 cursor-pointer"></ClearIcon>
+                        </Button>
+                      </div>
+                      {/*                     <div>
                       <Button onClick={() => onSelectedFilename(row.path)}>
                        <SearchIcon fontSize="small">
                         <TableModal  data={ fileExcelData} fileName= {row.name} />
@@ -146,9 +148,9 @@ export default function Home() {
                       </Button>
                     </div> */}
                       <div >
-                      <TableModal  path={ row.path} fileName= {row.name} />
+                        <TableModal path={row.path} fileName={row.name} />
                       </div>
-                  </div>
+                    </div>
                   </TableCell>
                 </TableRow>
               ))}
